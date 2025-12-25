@@ -1,41 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit index{% endblock %}
+{% block navbar %}{% endblock %}
 
 {% block body %}
-    <h1>Produit index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Photo</th>
-                <th>Descrptionlong</th>
-                <th>Prix</th>
-                <th>actions</th>
-            </tr>
+<div class="container my-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold mb-0">Liste des produits</h1>
+
+    <a href="{{ path('app_produit_new') }}" class="btn btn-dark rounded-3">
+      + Ajouter un produit
+    </a>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Nom</th>
+            <th>Photo</th>
+            <th>Description</th>
+            <th>Prix</th>
+            <th class="text-end">Actions</th>
+          </tr>
         </thead>
         <tbody>
         {% for produit in produits %}
-            <tr>
-                <td>{{ produit.id }}</td>
-                <td>{{ produit.nom }}</td>
-                <td>{{ produit.photo }}</td>
-                <td>{{ produit.descrptionlong }}</td>
-                <td>{{ produit.prix }}</td>
-                <td>
-                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
-                </td>
-            </tr>
+          <tr>
+            <td class="text-muted">{{ produit.id }}</td>
+
+            <td class="fw-semibold">
+              {{ produit.nom }}
+            </td>
+
+            <td>
+              <img
+                src="{{ produit.photo ? asset('images/' ~ produit.photo) : asset('images/default.png') }}"
+                alt="{{ produit.nom }}"
+                class="rounded-3"
+                style="width: 60px; height: 60px; object-fit: cover;"
+              >
+            </td>
+
+            <td class="text-muted small">
+              {{ produit.descrptionlong|length > 60
+                ? produit.descrptionlong[:60] ~ '…'
+                : produit.descrptionlong }}
+            </td>
+
+            <td class="fw-bold">
+              {{ produit.prix }} €
+            </td>
+
+            <td class="text-end">
+              <a href="{{ path('app_produit_show', {'id': produit.id}) }}"
+                 class="btn btn-sm btn-outline-secondary me-1">
+                Voir
+              </a>
+              <a href="{{ path('app_produit_edit', {'id': produit.id}) }}"
+                 class="btn btn-sm btn-outline-dark">
+                Modifier
+              </a>
+            </td>
+          </tr>
         {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">
+              Aucun produit trouvé
+            </td>
+          </tr>
         {% endfor %}
         </tbody>
-    </table>
+      </table>
+    </div>
+  </div>
 
-    <a href="{{ path('app_produit_new') }}">Create new</a>
+</div>
 {% endblock %}

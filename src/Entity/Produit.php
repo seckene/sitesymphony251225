@@ -16,7 +16,8 @@ class Produit
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    // ✅ PHOTO nullable
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
     #[ORM\Column(type: 'text')]
@@ -48,7 +49,8 @@ class Produit
         return $this->photo;
     }
 
-    public function setPhoto(string $photo): self
+    // ✅ setter accepte null
+    public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
         return $this;

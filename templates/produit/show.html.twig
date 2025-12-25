@@ -1,38 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit{% endblock %}
+{% block navbar %}{% endblock %}
 
 {% block body %}
-    <h1>Produit</h1>
+<div class="container my-5">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold mb-0">{{ produit.nom }}</h1>
+
+    <div class="d-flex gap-2">
+      <a href="{{ path('app_produit_index') }}" class="btn btn-outline-secondary rounded-3">
+        ← Retour
+      </a>
+      <a href="{{ path('app_produit_edit', {'id': produit.id}) }}" class="btn btn-dark rounded-3">
+        Modifier
+      </a>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-4 p-md-5">
+
+      <div class="row g-4">
+        <div class="col-md-5 text-center">
+          <img
+            src="{{ produit.photo ? asset('images/' ~ produit.photo) : asset('images/default.png') }}"
+            alt="{{ produit.nom }}"
+            class="img-fluid rounded-4"
+            style="max-height: 320px; object-fit: cover;"
+          >
+        </div>
+
+        <div class="col-md-7">
+          <table class="table table-borderless mb-0">
+            <tbody>
+              <tr>
+                <th class="text-muted w-25">ID</th>
                 <td>{{ produit.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ produit.nom }}</td>
-            </tr>
-            <tr>
-                <th>Photo</th>
-                <td>{{ produit.photo }}</td>
-            </tr>
-            <tr>
-                <th>Descrptionlong</th>
+              </tr>
+              <tr>
+                <th class="text-muted">Nom</th>
+                <td class="fw-semibold">{{ produit.nom }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted">Description</th>
                 <td>{{ produit.descrptionlong }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ produit.prix }}</td>
-            </tr>
-        </tbody>
-    </table>
+              </tr>
+              <tr>
+                <th class="text-muted">Prix</th>
+                <td class="fw-bold fs-5">{{ produit.prix }} €</td>
+              </tr>
+            </tbody>
+          </table>
 
-    <a href="{{ path('app_produit_index') }}">back to list</a>
+          <div class="mt-4">
+            {{ include('produit/_delete_form.html.twig') }}
+          </div>
+        </div>
+      </div>
 
-    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+    </div>
+  </div>
 
-    {{ include('produit/_delete_form.html.twig') }}
+</div>
 {% endblock %}

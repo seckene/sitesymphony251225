@@ -1,3 +1,77 @@
 body {
     background-color: skyblue;
 }
+/* ===== FORM GLOBAL ===== */
+form {
+  max-width: 100%;
+}
+
+/* Chaque champ Symfony */
+form .mb-3,
+form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+/* Labels */
+form label {
+  font-weight: 600;
+  margin-bottom: .35rem;
+  display: inline-block;
+  color: #222;
+}
+
+/* Inputs, textarea, select */
+form input,
+form textarea,
+form select {
+  width: 100%;
+  border-radius: 14px;
+  padding: .75rem .9rem;
+  border: 1px solid rgba(0,0,0,.15);
+  font-size: .95rem;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+/* Focus propre */
+form input:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 .18rem rgba(0,0,0,.08);
+}
+
+/* Textarea */
+form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* Input prix (number) */
+form input[type="number"] {
+  max-width: 200px;
+}
+
+/* Bouton submit */
+form button.btn {
+  margin-top: 1.2rem;
+  padding: .85rem 1.2rem;
+  border-radius: 14px;
+  font-weight: 700;
+  background: #000;
+  color: #fff;
+  border: none;
+  transition: background .15s ease, transform .1s ease;
+}
+
+form button.btn:hover {
+  background: #222;
+  transform: translateY(-1px);
+}
+
+/* Erreurs Symfony */
+.invalid-feedback,
+.form-error-message {
+  font-size: .85rem;
+  color: #c0392b;
+}

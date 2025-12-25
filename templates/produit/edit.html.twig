@@ -1,13 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Produit{% endblock %}
+{% block navbar %}{% endblock %}
 
 {% block body %}
-    <h1>Edit Produit</h1>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-7">
 
-    {{ include('produit/_form.html.twig', {'button_label': 'Update'}) }}
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h1 class="fw-bold mb-1">Modifier le produit</h1>
+          <p class="text-muted mb-0">Mets à jour les informations de : <span class="fw-semibold">{{ produit.nom }}</span></p>
+        </div>
 
-    <a href="{{ path('app_produit_index') }}">back to list</a>
+        <a href="{{ path('app_produit_index') }}" class="btn btn-outline-secondary rounded-3">
+          ← Retour
+        </a>
+      </div>
 
-    {{ include('produit/_delete_form.html.twig') }}
+      <div class="card form-card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+
+          {# Aperçu image actuelle #}
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <img
+              src="{{ produit.photo ? asset('images/' ~ produit.photo) : asset('images/default.png') }}"
+              alt="{{ produit.nom }}"
+              class="rounded-4"
+              style="width: 90px; height: 90px; object-fit: cover;"
+            >
+            <div>
+              <div class="fw-bold">{{ produit.nom }}</div>
+              <div class="text-muted small">Change l’image via le champ “Image du produit”.</div>
+            </div>
+          </div>
+
+          {{ include('produit/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+          <div class="d-flex justify-content-between align-items-center mt-4">
+            <a href="{{ path('app_produit_index') }}" class="btn btn-outline-dark rounded-3 px-4">
+              ← Retour à la liste
+            </a>
+
+            <div>
+              {{ include('produit/_delete_form.html.twig') }}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 {% endblock %}

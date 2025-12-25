@@ -11,79 +11,77 @@
     {% block stylesheets %}{% endblock %}
 
     <style>
-      /* ===== NAVBAR SUR LE HERO ===== */
-      .navbar-hero {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 10;
-        background: transparent !important;
-        border-bottom: 1px solid rgba(255,255,255,.15);
-      }
-      .navbar-hero .nav-link,
-      .navbar-hero .navbar-brand {
-        color: #fff !important;
-      }
-      .navbar-hero .navbar-toggler {
-        filter: invert(1);
-      }
+      /* ===== NAVBAR VISIBLE SUR PAGES CLAIRES ===== */
+.page-light .navbar-hero{
+  position: sticky;         /* au lieu de absolute */
+  top: 0;
+  background: #111 !important;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
 
-      /* ===== HERO ===== */
-      .hero-bg {
-        min-height: 100vh;
-        background-image: url("/images/hero.png");
-        background-size: cover;
-        background-position: center;
-        position: relative;
-      }
-      .hero-bg::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0,0,0,.55);
-      }
-      .hero-content {
-        position: relative;
-        z-index: 1;
-      }
+.page-light .navbar-hero .nav-link,
+.page-light .navbar-hero .navbar-brand{
+  color: #fff !important;
+}
+
+.page-light .navbar-hero .navbar-toggler{
+  filter: invert(1);
+}
+
+/* évite que le contenu passe sous la navbar */
+.page-light main{
+  padding-top: 24px;
+}
+
     </style>
   </head>
 
   <body>
-    <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-hero">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="#">sunnah_X_hall</a>
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-hero">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#">sunnah_X_hall</a>
 
-    <button class="navbar-toggler" type="button"
-            data-bs-toggle="collapse" data-bs-target="#mainNav"
-            aria-controls="mainNav" aria-expanded="false"
-            aria-label="Menu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false"
+                aria-label="Menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-        <li class="nav-item"><a class="nav-link" href="#">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Homme</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Femme</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Nouveautés</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">À propos</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            <li class="nav-item"><a class="nav-link" href="{{ path('app_home') }}">Accueil</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Homme</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Nouveautés</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
 
-        <li class="nav-item ms-lg-3">
-          <a class="nav-link" href="#">Connexion</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn btn-light rounded px-4" href="#">Inscription</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+            {# ✅ Partie AUTH #}
+            {% if app.user %}
+              <li class="nav-item ms-lg-3">
+                <a class="nav-link" href="{{ path('app_panier_index') }}">Panier</a>
+              </li>
 
-    <!-- CONTENU DES PAGES -->
+              
+
+              <li class="nav-item">
+                <a class="btn btn-light" href="{{ path('app_logout') }}">Déconnexion</a>
+              </li>
+            {% else %}
+              <li class="nav-item ms-lg-3">
+                <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="btn btn-light" href="{{ path('app_register') }}">Inscription</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% endblock %}
+
     {% block body %}{% endblock %}
 
     <!-- Bootstrap JS -->
