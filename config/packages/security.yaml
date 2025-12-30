@@ -28,13 +28,17 @@ security:
                 path: /
 
     access_control:
-        # 🛒 Panier → utilisateur connecté
-        - { path: ^/panier, roles: ROLE_USER }
+    # 🔓 Panier PUBLIC (même non connecté)
+    - { path: ^/panier, roles: PUBLIC_ACCESS }
 
-        # 🧑‍💼 Produits → admin uniquement
-        - { path: ^/produit/new, roles: ROLE_ADMIN }
-        - { path: ^/produit/\d+/edit, roles: ROLE_ADMIN }
-        - { path: ^/produit/\d+$, roles: ROLE_ADMIN, methods: [POST] }
+    # 🔓 Détail produit PUBLIC (exception)
+    - { path: ^/produit/detail/\d+$, roles: PUBLIC_ACCESS, methods: [GET] }
+
+    # 🔒 Tout le reste de /produit → ADMIN
+    - { path: ^/produit, roles: ROLE_ADMIN }
+
+    # 🔒 Catégories → ADMIN
+    - { path: ^/admin/category, roles: ROLE_ADMIN }
 
         # 🔓 Le reste est public (login, register, home…)
 

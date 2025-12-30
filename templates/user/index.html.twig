@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+
+    <div class="d-flex justify-content-center mb-4 mt-5">
+        <h1>Liste des utilisateurs</h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nom d'utilisateur</th>
+                    <th>Rôles</th>
+                    <th>Mot de passe (hash)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td data-label="ID">{{ user.id }}</td>
+                        <td data-label="Rôles">{{ user.roles ? user.roles|join(', ') : '' }}</td>
+                        <td data-label="Mot de passe">
+                            <code class="text-muted" style="font-size: 0.8rem;">
+                                {{ user.password|slice(0, 20) ~ '...' }}
+                            </code>
+                        </td>
+                        <td data-label="Actions">
+                            <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-sm btn-outline-primary">Voir</a>
+                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Aucun utilisateur trouvé.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-end">
+        <a href="{{ path('app_user_new') }}" class="btn btn-primary">Créer un nouvel utilisateur</a>
+    </div>
+
+</div>
+
+<style>
+/* Responsive affichage bloc */
+@media (max-width: 768px) {
+    table thead {
+        display: none; /* Cache l'entête */
+    }
+    table, table tbody, table tr, table td {
+        display: block;
+        width: 100%;
+    }
+    table tr {
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+    table td {
+        text-align: left;
+        padding: 0.5rem;
+        position: relative;
+    }
+    table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.3rem;
+        color: #333;
+    }
+}
+</style>
+{% endblock %}

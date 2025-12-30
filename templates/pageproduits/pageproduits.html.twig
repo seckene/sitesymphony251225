@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Produits{% endblock %}
+
+{# ⚠️ Si Bootstrap est déjà inclus dans base.html.twig, enlève ce block stylesheets #}
+{% block stylesheets %}
+  {{ parent() }}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+
+  <div class="text-center mb-5">
+    <h1 class="mb-2">Nos Produits</h1>
+    <p class="text-muted mb-0">Découvrez notre sélection exclusive de produits soigneusement choisis pour vous.</p>
+  </div>
+
+  {% if produits is empty %}
+    <div class="alert alert-info text-center">
+      Aucun produit disponible pour le moment.
+    </div>
+  {% else %}
+    <div class="produits-grid">
+      {% for produit in produits %}
+        <a href="{{ path('app_produit_show_detaille', { id: produit.id }) }}"
+           class="produit-link text-decoration-none">
+
+          <div class="card produit-card shadow-sm h-100">
+            <img
+              src="{{ asset('images/' ~ produit.photo) }}"
+              class="card-img-top produit-img"
+              alt="{{ produit.nom }}"
+            >
+
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title mb-2">{{ produit.nom }}</h5>
+
+              <p class="card-text text-muted flex-grow-1 description">
+                {{ produit.descrptionlong }}
+              </p>
+
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="fw-bold">{{ produit.prix }} €</span>
+                <span class="btn btn-sm btn-outline-dark">Voir</span>
+              </div>
+            </div>
+          </div>
+
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</div>
+
+<style>
+/* Grille responsive */
+.produits-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Carte */
+.produit-card{
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.produit-link:hover .produit-card{
+  transform: translateY(-3px);
+  box-shadow: 0 .6rem 1.4rem rgba(0,0,0,.12);
+}
+
+/* Image */
+.produit-img{
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+/* Texte description : limite à 3 lignes */
+.description{
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tablette */
+@media (max-width: 992px){
+  .produits-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .produit-img{
+    height: 240px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px){
+  .produits-grid{
+    grid-template-columns: 1fr;
+  }
+  .produit-img{
+    height: 220px;
+  }
+}
+</style>
+{% endblock %}

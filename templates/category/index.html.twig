@@ -1,0 +1,59 @@
+{% extends 'basedeux.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-center align-items-center mb-4">
+    <h1>Catégories</h1>
+  </div>
+
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for categorie in categories %}
+        <tr>
+          <td>{{ categorie.id }}</td>
+          <td>{{ categorie.nom }}</td>
+          <td>
+            <a class="btn btn-sm btn-outline-dark"
+               href="{{ path('app_categorie_show', { id: categorie.id }) }}">
+               Show
+            </a>
+
+            <a class="btn btn-sm btn-outline-primary"
+               href="{{ path('app_categorie_edit', { id: categorie.id }) }}">
+               Edit
+            </a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="3" class="text-center text-muted">
+            No records found
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="text-center mt-4">
+    <a class="btn btn-success" href="{{ path('app_categorie_new') }}">
+      Create new
+    </a>
+  </div>
+
+</div>
+{% endblock %}

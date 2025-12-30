@@ -1,0 +1,30 @@
+{% extends 'basedeux.html.twig' %}
+
+{% block title %}Categorie{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-center align-items-center mb-4 mt-5">
+    <h1 class="mb-4">categorie</h1>
+</div>
+    
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ category.nom }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_category_index') }}">back to list</a>
+
+    <a href="{{ path('app_categorie_edit', {'id': category.id}) }}">edit</a>
+
+    {{ include('category/_delete_form.html.twig') }}
+{% endblock %}

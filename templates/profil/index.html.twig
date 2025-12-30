@@ -1,0 +1,202 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container my-5">
+
+  <div class="layout">
+
+    {# ===== Profil ===== #}
+    <section class="cardx">
+      <div class="profile-head">
+        <div class="avatar">👤</div>
+
+        <div class="profile-meta">
+          <div class="label">Compte</div>
+          <div class="value">{{ user.email }}</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="{{ path('modifier') }}" class="btnx btnx-primary">
+          Modifier mon profil
+        </a>
+
+        {% if is_granted('ROLE_ADMIN') %}
+          <a href="{{ path('app_produit_index') }}" class="btnx btnx-ghost">
+            Admin
+          </a>
+          <a href="{{ path('app_home') }}" class="btnx btnx-ghost">
+            Visiteur
+          </a>
+        {% endif %}
+
+        <a href="{{ path('app_logout') }}" class="btnx btnx-danger">
+          Se déconnecter
+        </a>
+      </div>
+    </section>
+
+    {# ===== Commandes ===== #}
+    <section class="cardx">
+      <div class="section-title">Commandes récentes</div>
+
+      {# Exemple vide (tu remplaceras par une boucle quand tu auras les commandes) #}
+      <div class="empty">
+        Aucune commande pour le moment.
+      </div>
+
+      {# Si tu as un tableau commandes, tu peux utiliser ça :
+      <div class="table-wrap">
+        <table class="tablex">
+          <thead>
+            <tr>
+              <th>Numéro</th>
+              <th>Date</th>
+              <th>Total</th>
+              <th>Statut</th>
+              <th class="right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in commandes %}
+              <tr>
+                <td>#{{ c.numero }}</td>
+                <td>{{ c.date|date('d/m/Y') }}</td>
+                <td>{{ c.total }} €</td>
+                <td>{{ c.statut }}</td>
+                <td class="right"><a href="#" class="linkx">Voir</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      #}
+    </section>
+
+  </div>
+</div>
+
+<style>
+/* ===== Layout ===== */
+.layout{
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* ===== Card ===== */
+.cardx{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+/* ===== Profile ===== */
+.profile-head{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  margin-bottom: 14px;
+}
+.avatar{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display:grid;
+  place-items:center;
+  background: rgba(0,0,0,.04);
+  border: 1px solid rgba(0,0,0,.08);
+  font-size: 18px;
+}
+.profile-meta .label{
+  font-size: .85rem;
+  color: rgba(0,0,0,.55);
+}
+.profile-meta .value{
+  font-weight: 600;
+  color: rgba(0,0,0,.85);
+  word-break: break-word;
+}
+
+/* ===== Buttons ===== */
+.actions{
+  display:grid;
+  gap: 10px;
+}
+.btnx{
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  padding: .85rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration:none;
+  border: 1px solid rgba(0,0,0,.12);
+  transition: opacity .15s ease, transform .15s ease;
+}
+.btnx:hover{
+  opacity: .95;
+  transform: translateY(-1px);
+}
+.btnx-primary{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+.btnx-ghost{
+  background:#fff;
+  color:#111;
+}
+.btnx-danger{
+  background:#fff;
+  color:#b42318;
+  border-color: rgba(180,35,24,.25);
+}
+
+/* ===== Commandes ===== */
+.section-title{
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.empty{
+  color: rgba(0,0,0,.55);
+  padding: 10px 0;
+}
+
+/* Table (si tu l’actives) */
+.table-wrap{ overflow:auto; }
+.tablex{
+  width:100%;
+  border-collapse: collapse;
+  font-size: .95rem;
+}
+.tablex th, .tablex td{
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  white-space: nowrap;
+}
+.tablex th{
+  text-align:left;
+  color: rgba(0,0,0,.55);
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .2px;
+}
+.right{ text-align:right; }
+.linkx{ color:#111; text-decoration:none; font-weight:600; }
+.linkx:hover{ text-decoration: underline; }
+
+/* ===== Responsive ===== */
+@media (max-width: 992px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .cardx{ padding: 16px; }
+}
+</style>
+{% endblock %}

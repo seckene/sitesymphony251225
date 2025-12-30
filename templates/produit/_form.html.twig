@@ -1,9 +1,74 @@
 {{ form_start(form) }}
 
-    {{ form_widget(form) }}
+{{ form_row(form.nom) }}
+{{ form_row(form.descrptionlong) }}
+{{ form_row(form.prix) }}
+{{ form_row(form.category) }}
+{{ form_row(form.matiere) }}
+{{ form_row(form.coupe) }}
+{{ form_row(form.longueur) }}
+{{ form_row(form.entretien) }}
+{{ form_row(form.imageFile) }}
+{{ form_row(form.gallery) }}
 
-    <button class="btn w-100 mt-2">
-        Enregistrer le produit
-    </button>
+<hr class="my-4">
+
+<h5 class="fw-bold mb-3">Tailles / Stock</h5>
+
+<div id="variants"
+     data-prototype="{{ form_widget(form.variants.vars.prototype)|e('html_attr') }}">
+  {% for variantForm in form.variants %}
+    <div class="variant-item border rounded-3 p-3 mb-2">
+      {{ form_row(variantForm.taille) }}
+      {{ form_row(variantForm.stock) }}
+      <button type="button" class="btn btn-sm btn-outline-danger remove-variant mt-2">
+        Supprimer cette taille
+      </button>
+    </div>
+  {% endfor %}
+</div>
+
+<button type="button" class="btn btn-outline-dark mt-2" id="add-variant">
+  + Ajouter une taille
+</button>
+
+<hr class="my-4">
+
+<button class="btn btn-dark rounded-3">Enregistrer</button>
 
 {{ form_end(form) }}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('variants');
+  const addBtn = document.getElementById('add-variant');
+  if (!container || !addBtn) return;
+
+  let index = container.querySelectorAll('.variant-item').length;
+
+  function bindRemove(btn) {
+    btn.addEventListener('click', () => {
+      btn.closest('.variant-item').remove();
+    });
+  }
+
+  container.querySelectorAll('.remove-variant').forEach(bindRemove);
+
+  addBtn.addEventListener('click', () => {
+    const prototype = container.dataset.prototype;
+    const html = prototype.replace(/__name__/g, index);
+    index++;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'variant-item border rounded-3 p-3 mb-2';
+    wrapper.innerHTML = html + `
+      <button type="button" class="btn btn-sm btn-outline-danger remove-variant mt-2">
+        Supprimer cette taille
+      </button>
+    `;
+
+    container.appendChild(wrapper);
+    bindRemove(wrapper.querySelector('.remove-variant'));
+  });
+});
+</script>
